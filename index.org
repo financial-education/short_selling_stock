@@ -13,35 +13,29 @@ However, shorting stock is also used by banks to hedge put options they have sol
 
 In other words, shorting stock is used to lessen the risk taken by banks and other financial intermediaries.  In fact, without the ability to short, put options and other derivatives may not exist. 
 
- 
-
 ** So How Does It Work?
 
-To short a share of stock, you borrow the stock from someone (say, Bob) and sell it to someone else (say, Sandra).  Say that you sold it to Sandra for \$100.  The cash balance in your account will increase by \$100, and you will hold a -1 position in the stock.  
+To short a share of stock, you borrow the stock from someone (say, Bob) and sell it to someone else (say, Sandra).  Say that you sold it to Sandra for $100.  The cash balance in your account will increase by $100, and you will hold a -1 position in the stock.  
 
 -  Eventually, you'll have to return the stock to Bob to close our your short position.
 
 -  To return the stock to Bob, you'll go to the market and buy a share.  You can buy it from anyone, not just Sandra.
 
- 
+** Example Profit/Loss
+
+Imagine that the stock is trading in the market for $80 when you decide to close the position.
+
+-  To close the postion, you buy the stock for $80 and return it to Bob.
+
+-  After the transaction you are left with a profit of $100 - $80 = $20.
 
 ** Example Profit/Loss
 
-Imagine that the stock is trading in the market for \$80 when you decide to close the position.
+Alternatievly, say the stock is trading in the market for $110 when you decide to close the position.
 
--  To close the postion, you buy the stock for \$80 and return it to Bob.
+-  To close the postion, you buy the stock for $110 and return it to Bob.
 
--  After the transaction you are left with a profit of \$100 - \$80 = \$20.
-
- 
-
-** Example Profit/Loss
-
-Alternatievly, say the stock is trading in the market for \$110 when you decide to close the position.
-
--  To close the postion, you buy the stock for \$110 and return it to Bob.
-
--  So you sold the stock for \$100, and bought it for \$110, for a loss of \$10.
+-  So you sold the stock for $100, and bought it for $110, for a loss of $10.
 
  
 
@@ -49,26 +43,21 @@ Alternatievly, say the stock is trading in the market for \$110 when you decide 
 
 On the next slide you can input the amount of shares you want to short, as well as the prices at which you open and close the short position.
 
--  The app shows each transaction made in the course of the short sale and also your ultimate profit.
+-  The app ultimate profit.
 
 -  A negative profit is a loss.
-
--  Complete lines open the short position, and dotted lines close the short.
-
 
 #+BEGIN_EXPORT html
 <script>
 var calculate = function() {
 
-  var pp = Number(document.getElementById("pp").value);
-  var n = Number(document.getElementById("n").value);
-  var im = Number(document.getElementById("im").value);
-  var cp = Number(document.getElementById("cp").value);
+  var shares = Number(document.getElementById("shares").value);
+  var sale_price = Number(document.getElementById("sale_price").value);
+  var bought_price = Number(document.getElementById("bought_price").value);
   
-  var loan = pp * n * (1 - im);
-  var new_margin = 100 * (cp * n - loan) / (cp * n);
+  var profit = shares * (sale_price - bought_price);
   
-  document.getElementById("out_new_margin").innerHTML = new_margin.toFixed(2);
+  document.getElementById("out_profit").innerHTML = profit.toFixed(2);
 
 }
 </script>
@@ -76,7 +65,7 @@ var calculate = function() {
 
 <body class="all">
   <h3>
-    Long Margin Percent Calculator
+    Short Sale Profit Calculator
   </h3>
 
   <div class="row">
@@ -84,20 +73,16 @@ var calculate = function() {
     <div class="column">
       <table style="width:100%">
         <tr>
-          <th align="left">Purchase Price:</th>
-          <th><input id="pp" value="100" style="width: 50px"></th>
+          <th align="left">Sale (Short) Price:</th>
+          <th><input id="sale_price" value="100" style="width: 50px"></th>
         </tr>
         <tr>
           <th align="left">Number of Shares:</th>
-          <th><input id="n" value="100" style="width: 50px"></th>
+          <th><input id="shares" value="100" style="width: 50px"></th>
         </tr>
         <tr>
-          <th align="left">Initial Margin:</th>
-          <th><input id="im" value="0.6" style="width: 50px"></th>
-        </tr>
-        <tr>
-          <th align="left">Current Price:</th>
-          <th><input id="cp" value="70" style="width: 50px"></th>
+          <th align="left">Purchase Price:</th>
+          <th><input id="bought_price" value="70" style="width: 50px"></th>
         </tr>
       </table>
       <button onclick="calculate()">
@@ -106,7 +91,7 @@ var calculate = function() {
     </div>
 
     <div class="column">
-    <p><b>Current Margin: <span id="out_new_margin"></span>%</b></p>
+    <p><b>Profit: $<span id="out_profit"></span></b></p>
     </div>
 
   </div>
@@ -151,41 +136,18 @@ If you don't want to short (or your brokerage account doesn't allow it), you can
 
 ** Inverse ETF Performance
 
-The next slide shows the performance of an ETF on the S&P 500 (SPY) and an inverse ETF on the S&P 500 (SH).
-
--  To zoom in or focus on a subinterval, use the range selector at the bottom of the chart.
+The following link shows the performance of an ETF on the S&P 500 (SPY) and an inverse ETF on the S&P 500 (SH).
 
 -  You can see the inverse ETF (short) is a mirror image of the performance of the S&P 500.
 
- 
+[[https://g.co/finance/SPY:NYSEARCA?comparison=NYSEARCA%3ASH][Chart on Google Finance]]
 
-** S&P 500 (SPY) and Short S&P 500 (SH)
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-#{{{
-library(dygraphs)
-devtools::install_github("joshuaulrich/quantmod", ref="157_yahoo_502")
-library(quantmod)
-renderDygraph({
-    stock1 <- getSymbols("SPY", from = "1950-01-03", auto.assign = FALSE)
-    stock2 <- getSymbols("SH", from = "1950-01-03", auto.assign = FALSE)
-    stocks <- merge.xts(Ad(stock1), Ad(stock2), join = "inner")
-    dygraph(Ad(stocks), main = "") %>%
-        dyRangeSelector()
-})
-#}}}
-```
-
- 
-
-
-<!---
 ** Does Shorting Create Shares?
 
 Short answer: No.
 
-In our example, Bob ownes a share, we *owe* one share, and Sandra ownes a share.  The number of shares outstanding are 1 - 1 + 1 = 1.
+If we borrow a share from someone and sell it they still own one share, we *owe* one share.  The person we sold it to also owns a share and the number of shares outstanding is 1 - 1 + 1 = 1.
 
 -  So as long as the shares are actually borrowed (it is not a naked short), shorting has no effect on the float.
--->
+
 
