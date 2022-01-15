@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-01-15 Sat 14:14 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Short Selling Stock</title>
+<meta name="author" content="Matt Brigida, Ph.D." />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Short Selling Stock</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org865df68">1. Why Short Stock?</a></li>
+<li><a href="#org7512ab5">2. So How Does It Work?</a></li>
+<li><a href="#org7ab84cb">3. Example Profit/Loss</a></li>
+<li><a href="#org3be1e18">4. Example Profit/Loss</a></li>
+<li><a href="#org7a0d9c7">5. Interactive App</a></li>
+<li><a href="#org107e53a">6. How Do You Borrow Shares?</a></li>
+<li><a href="#orgcd58245">7. Naked Shorting</a></li>
+<li><a href="#org7364603">8. Alternatives to Shorting: Inverse ETFs</a></li>
+<li><a href="#orgb6140a5">9. Inverse ETF Performance</a></li>
+<li><a href="#org04124a5">10. S&amp;P 500 (SPY) and Short S&amp;P 500 (SH)</a></li>
+<li><a href="#org6300f04">11. Does Shorting Create Shares?</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org865df68" class="outline-2">
+<h2 id="org865df68"><span class="section-number-2">1.</span> Why Short Stock?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+By shorting stock we profit when the stock price declines.  So you can use short sales to speculate.
+</p>
+
+<p>
+However, shorting stock is also used by banks to hedge put options they have sold, as well as other derivative positions.
+</p>
+
+<p>
+In other words, shorting stock is used to lessen the risk taken by banks and other financial intermediaries.  In fact, without the ability to short, put options and other derivatives may not exist. 
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7512ab5" class="outline-2">
+<h2 id="org7512ab5"><span class="section-number-2">2.</span> So How Does It Work?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+To short a share of stock, you borrow the stock from someone (say, Bob) and sell it to someone else (say, Sandra).  Say that you sold it to Sandra for \$100.  The cash balance in your account will increase by \$100, and you will hold a -1 position in the stock.  
+</p>
+
+<ul class="org-ul">
+<li>Eventually, you'll have to return the stock to Bob to close our your short position.</li>
+
+<li>To return the stock to Bob, you'll go to the market and buy a share.  You can buy it from anyone, not just Sandra.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7ab84cb" class="outline-2">
+<h2 id="org7ab84cb"><span class="section-number-2">3.</span> Example Profit/Loss</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Imagine that the stock is trading in the market for \$80 when you decide to close the position.
+</p>
+
+<ul class="org-ul">
+<li>To close the postion, you buy the stock for \$80 and return it to Bob.</li>
+
+<li>After the transaction you are left with a profit of \$100 - \$80 = \$20.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org3be1e18" class="outline-2">
+<h2 id="org3be1e18"><span class="section-number-2">4.</span> Example Profit/Loss</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Alternatievly, say the stock is trading in the market for \$110 when you decide to close the position.
+</p>
+
+<ul class="org-ul">
+<li>To close the postion, you buy the stock for \$110 and return it to Bob.</li>
+
+<li>So you sold the stock for \$100, and bought it for \$110, for a loss of \$10.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7a0d9c7" class="outline-2">
+<h2 id="org7a0d9c7"><span class="section-number-2">5.</span> Interactive App</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+On the next slide you can input the amount of shares you want to short, as well as the prices at which you open and close the short position.
+</p>
+
+<ul class="org-ul">
+<li>The app shows each transaction made in the course of the short sale and also your ultimate profit.</li>
+
+<li>A negative profit is a loss.</li>
+
+<li>Complete lines open the short position, and dotted lines close the short.</li>
+</ul>
+
+
+<script>
+var calculate = function() {
+
+  var pp = Number(document.getElementById("pp").value);
+  var n = Number(document.getElementById("n").value);
+  var im = Number(document.getElementById("im").value);
+  var cp = Number(document.getElementById("cp").value);
+  
+  var loan = pp * n * (1 - im);
+  var new_margin = 100 * (cp * n - loan) / (cp * n);
+  
+  document.getElementById("out_new_margin").innerHTML = new_margin.toFixed(2);
+
+}
+</script>
+
+
+<body class="all">
+  <h3>
+    Long Margin Percent Calculator
+  </h3>
+
+  <div class="row">
+
+    <div class="column">
+      <table style="width:100%">
+        <tr>
+          <th align="left">Purchase Price:</th>
+          <th><input id="pp" value="100" style="width: 50px"></th>
+        </tr>
+        <tr>
+          <th align="left">Number of Shares:</th>
+          <th><input id="n" value="100" style="width: 50px"></th>
+        </tr>
+        <tr>
+          <th align="left">Initial Margin:</th>
+          <th><input id="im" value="0.6" style="width: 50px"></th>
+        </tr>
+        <tr>
+          <th align="left">Current Price:</th>
+          <th><input id="cp" value="70" style="width: 50px"></th>
+        </tr>
+      </table>
+      <button onclick="calculate()">
+        Calculate.
+      </button>
+    </div>
+
+    <div class="column">
+    <p><b>Current Margin: <span id="out_new_margin"></span>%</b></p>
+    </div>
+
+  </div>
+  <br>
+  <br>
+  <br>
+</body>
+</div>
+</div>
+
+
+<div id="outline-container-org107e53a" class="outline-2">
+<h2 id="org107e53a"><span class="section-number-2">6.</span> How Do You Borrow Shares?</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+This is handled by your broker &#x2013; you don't have to worry about the mechanics behind the scenes.
+</p>
+
+<ul class="org-ul">
+<li>Essentially what happens is you broker will borrow the shares from a large investor or mutual fund.</li>
+
+<li>Sometimes your broker doesn't think it will be able to borrow shares, and will indicate the stock is not available for shorting.</li>
+
+<li>Note, you don't have any sort of right to short, and so during times of market turbulence, you may not be able to short many stocks.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgcd58245" class="outline-2">
+<h2 id="orgcd58245"><span class="section-number-2">7.</span> Naked Shorting</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Your broker has some leeway in terms of how soon they have to borrow shares &#x2013; generally, a few days.
+</p>
+
+<ul class="org-ul">
+<li>In the past, however, some brokers never bothered to borrow the shares.</li>
+
+<li>The term for shorting while failing to borrow the stock is 'Naked Shorting' and it has been banned by the U.S. Securities and Exchange Commission.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7364603" class="outline-2">
+<h2 id="org7364603"><span class="section-number-2">8.</span> Alternatives to Shorting: Inverse ETFs</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+If you don't want to short (or your brokerage account doesn't allow it), you can simply buy an inverse [Exchange Traded Fund (ETF)](<a href="http://www.5minutefinance.org/concepts/exchange-traded-funds">http://www.5minutefinance.org/concepts/exchange-traded-funds</a>).
+</p>
+
+<ul class="org-ul">
+<li>Buying an inverse ETF on a portfolio will afford a return very similar to shorting the portfolio.</li>
+
+<li>Inverse ETFs are not available for individual stocks.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgb6140a5" class="outline-2">
+<h2 id="orgb6140a5"><span class="section-number-2">9.</span> Inverse ETF Performance</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+The next slide shows the performance of an ETF on the S&amp;P 500 (SPY) and an inverse ETF on the S&amp;P 500 (SH).
+</p>
+
+<ul class="org-ul">
+<li>To zoom in or focus on a subinterval, use the range selector at the bottom of the chart.</li>
+
+<li>You can see the inverse ETF (short) is a mirror image of the performance of the S&amp;P 500.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org04124a5" class="outline-2">
+<h2 id="org04124a5"><span class="section-number-2">10.</span> S&amp;P 500 (SPY) and Short S&amp;P 500 (SH)</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#{{{
+library(dygraphs)
+devtools::install<sub>github</sub>("joshuaulrich/quantmod", ref="157<sub>yahoo</sub><sub>502</sub>")
+library(quantmod)
+renderDygraph({
+    stock1 &lt;- getSymbols("SPY", from = "1950-01-03", auto.assign = FALSE)
+    stock2 &lt;- getSymbols("SH", from = "1950-01-03", auto.assign = FALSE)
+    stocks &lt;- merge.xts(Ad(stock1), Ad(stock2), join = "inner")
+    dygraph(Ad(stocks), main = "") %&gt;%
+        dyRangeSelector()
+})
+#}}}
+```
+</p>
+
+
+
+
+<p>
+&lt;!&#x2014;
+</p>
+</div>
+</div>
+<div id="outline-container-org6300f04" class="outline-2">
+<h2 id="org6300f04"><span class="section-number-2">11.</span> Does Shorting Create Shares?</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+Short answer: No.
+</p>
+
+<p>
+In our example, Bob ownes a share, we <b>owe</b> one share, and Sandra ownes a share.  The number of shares outstanding are 1 - 1 + 1 = 1.
+</p>
+
+<ul class="org-ul">
+<li>So as long as the shares are actually borrowed (it is not a naked short), shorting has no effect on the float.</li>
+</ul>
+<p>
+&#x2013;&gt;
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matt Brigida, Ph.D.</p>
+<p class="date">Created: 2022-01-15 Sat 14:14</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
